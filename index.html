@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sistema de Emergencias</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🏥 Sistema de Emergencias</h1>
+  </header>
+
+  <main id="app">
+    <!-- AUTENTICACIÓN (siempre visible al inicio) -->
+    <section id="auth">
+      <!-- Inicio de sesión -->
+      <form id="loginForm" class="form">
+        <h2>Iniciar Sesión</h2>
+        <input type="email" id="loginEmail" placeholder="Correo electrónico" required />
+        <div class="password-wrapper">
+          <input type="password" id="loginPassword" placeholder="Contraseña" required />
+          <span class="toggle-password">👁</span>
+        </div>
+        <button type="submit">Ingresar</button>
+        <p class="message"></p>
+        <a href="#" id="showRegisterLink">¿No tienes cuenta? Regístrate</a>
+      </form>
+
+      <!-- Registro -->
+      <form id="registerForm" class="form hidden">
+        <h2>Registro</h2>
+        <input type="email" id="regEmail" placeholder="Correo electrónico" required />
+        <div class="password-wrapper">
+          <input type="password" id="regPassword" placeholder="Contraseña" required />
+          <span class="toggle-password">👁</span>
+        </div>
+        <button type="button" id="sendCodeBtn">Enviar Código</button>
+        <input type="text" id="verificationCode" placeholder="Código de verificación" class="hidden" />
+        <button type="submit">Completar Registro</button>
+        <p class="message"></p>
+        <a href="#" id="showLoginLink">¿Ya tienes cuenta? Inicia sesión</a>
+      </form>
+    </section>
+
+    <!-- CONTENIDO PRINCIPAL (oculto inicialmente) -->
+    <section id="mainContent" class="hidden">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Bienvenido al Sistema de Emergencias</h2>
+        <button class="btn btn-outline-danger" id="logoutBtn">Cerrar sesión</button>
+      </div>
+      
+      <!-- Contadores de gravedad -->
+      <div class="gravedad-counter mb-4">
+        <div class="counter-item counter-leve">
+          <div>Leves</div>
+          <div id="countLeve">0</div>
+        </div>
+        <div class="counter-item counter-moderado">
+          <div>Moderados</div>
+          <div id="countModerado">0</div>
+        </div>
+        <div class="counter-item counter-urgente">
+          <div>Urgentes</div>
+          <div id="countUrgente">0</div>
+        </div>
+        <div class="counter-item counter-critico">
+          <div>Críticos</div>
+          <div id="countCritico">0</div>
+        </div>
+      </div>
+      
+      <!-- FORMULARIO REGISTRO PACIENTE -->
+      <section id="patientForm" class="form mb-5">
+        <h2>📋 Registro de Paciente</h2>
+        <form id="formularioPaciente">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Nombre Completo *</label>
+              <input type="text" class="form-control" id="nombre" required />
+              <div class="invalid-feedback">Por favor ingrese el nombre completo</div>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Edad *</label>
+              <input type="number" class="form-control" id="edad" min="1" required />
+              <div class="invalid-feedback">La edad debe ser mayor a 0</div>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Género *</label>
+              <select class="form-select" id="genero" required>
+                <option value="">Seleccione...</option>
+                <option>Hombre</option>
+                <option>Mujer</option>
+              </select>
+              <div class="invalid-feedback">Seleccione un género</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Documento (CI o Pasaporte) *</label>
+              <input type="text" class="form-control" id="documento" minlength="5" required />
+              <div class="invalid-feedback">Mínimo 5 caracteres</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Síntomas *</label>
+              <input type="text" class="form-control" id="sintomas" required />
+              <div class="invalid-feedback">Describa los síntomas</div>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Gravedad *</label>
+              <select class="form-select" id="gravedad" required>
+                <option value="">Seleccione...</option>
+                <option value="leve">🟩 Leve</option>
+                <option value="moderado">🟨 Moderado</option>
+                <option value="urgente">🟧 Urgente</option>
+                <option value="critico">🟥 Crítico</option>
+              </select>
+              <div class="invalid-feedback">Seleccione el nivel de gravedad</div>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Tratamiento</label>
+              <input type="text" class="form-control" id="tratamiento" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Medicamentos</label>
+              <input type="text" class="form-control" id="medicamentos" />
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">Exámenes</label>
+              <select class="form-select" id="examenes" multiple>
+                <option>Hemograma</option>
+                <option>Radiografía</option>
+                <option>Tomografía</option>
+                <option>Electrocardiograma</option>
+                <option>Ecografía</option>
+                <option>Análisis de orina</option>
+                <option>Análisis de sangre</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <button type="submit" class="btn btn-success">Registrar Paciente</button>
+            <button type="reset" class="btn btn-secondary">Limpiar</button>
+          </div>
+        </form>
+      </section>
+      
+      <!-- Tabla de pacientes -->
+      <h2 class="text-center mb-3">📑 Lista de Pacientes</h2>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead class="table-dark">
+            <tr>
+              <th>Nombre</th>
+              <th>Edad</th>
+              <th>Género</th>
+              <th>Documento</th>
+              <th>Síntomas</th>
+              <th>Gravedad</th>
+              <th>Tratamiento</th>
+              <th>Medicamentos</th>
+              <th>Exámenes</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tablaPacientes"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
